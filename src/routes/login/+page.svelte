@@ -8,6 +8,8 @@
 	let success = false;
 
 	async function login() {
+		error = "";
+		success = false;
 		let response = await fetch(`https://api.stelo.finance/users/${username}/sessions`, {
 			method: "POST",
 			credentials: "include",
@@ -37,8 +39,8 @@
 
 <a href="/register" class="underline">Go to Register</a>
 
-{#if error}
-	<p class="text-red-500">Error: {error}</p>
-{:else if success}
+{#if success}
 	<p>Success! You have been logged in, redirecting now...</p>
+{:else if error}
+	<p class="text-red-500">Error: {error}</p>
 {/if}

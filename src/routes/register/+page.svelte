@@ -6,6 +6,8 @@
 	let success = false;
 
 	async function register() {
+		error = "";
+		success = false;
 		let response = await fetch("https://api.stelo.finance/users", {
 			method: "POST",
 			headers: {
@@ -16,6 +18,8 @@
 				password: password
 			})
 		});
+
+		password = "";
 
 		if (response.status >= 400) {
 			error = await response.text();
@@ -34,9 +38,9 @@
 
 <a href="/login" class="underline">Go to Login</a>
 
-{#if error}
-	<p class="text-red-500">Error: {error}</p>
-{:else if success}
+{#if success}
 	<p>Success! You have been registered</p>
-	<a href="/login">Login</a>
+	<a href="/login" class="underline">Login</a>
+{:else if error}
+	<p class="text-red-500">Error: {error}</p>
 {/if}

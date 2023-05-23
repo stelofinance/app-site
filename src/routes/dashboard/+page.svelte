@@ -10,6 +10,7 @@
 		if (response.status >= 400) {
 			error = await response.text();
 		} else {
+			error = "";
 			return await response.json();
 		}
 	}
@@ -22,6 +23,8 @@
 	let txSuccess = false;
 
 	async function sendTransaction() {
+		txError = "";
+		txSuccess = false;
 		let body: any = {
 			recipient: txUsername,
 			type: txRecipientType,
@@ -80,10 +83,10 @@
 		>Send TX</button
 	>
 </div>
-{#if txError}
-	<p class="text-red-500">{txError}</p>
-{:else if txSuccess}
+{#if txSuccess}
 	<p class="text-green-700">Transaction sent!</p>
+{:else if txError}
+	<p class="text-red-500">{txError}</p>
 {/if}
 
 <h2 class="mt-8 text-xl">Assets</h2>
