@@ -32,6 +32,8 @@
 
 <button class="bg-gray-300 rounded-sm py-1 px-4 underline" on:click={register}>Submit</button>
 
+<a href="/login" class="underline">Go to Login</a>
+
 {#if error}
 	<p class="text-red-500">Error: {error}</p>
 {:else if success}
