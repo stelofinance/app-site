@@ -1,5 +1,19 @@
 <script lang="ts">
+	import { z } from "zod";
+	import { parse, parseNumberAndBigInt } from "lossless-json";
+
 	let error = "";
+
+	const Assets = z.array(
+		z.object({
+			asset: z.object({
+				id: z.coerce.bigint(),
+				name: z.string(),
+				value: z.coerce.bigint()
+			}),
+			quantity: z.coerce.string()
+		})
+	);
 
 	async function getAssets() {
 		let response = await fetch(`https://api.stelo.finance/wallet/assets`, {
@@ -11,7 +25,13 @@
 			error = await response.text();
 		} else {
 			error = "";
-			return await response.json();
+			try {
+				let data = Assets.parse(parse(await response.text(), undefined, parseNumberAndBigInt));
+				return data;
+			} catch (error) {
+				console.log(error);
+				error = "Error with server, tell nin";
+			}
 		}
 	}
 
@@ -53,6 +73,26 @@
 		}
 	}
 
+	const Transactions = z.array(
+		z.object({
+			id: z.coerce.bigint(),
+			sending_wallet_id: z.coerce.bigint(),
+			receiving_wallet_id: z.coerce.bigint(),
+			created_at: z.string(),
+			memo: z.string(),
+			assets: z.array(
+				z.object({
+					asset: z.object({
+						id: z.coerce.bigint(),
+						name: z.string(),
+						value: z.coerce.bigint()
+					}),
+					quantity: z.coerce.string()
+				})
+			)
+		})
+	);
+
 	async function getTransactions() {
 		let response = await fetch(`https://api.stelo.finance/wallet/transactions`, {
 			method: "GET",
@@ -62,7 +102,14 @@
 		if (response.status >= 400) {
 			error = await response.text();
 		} else {
-			return await response.json();
+			let parseData = Transactions.safeParse(
+				parse(await response.text(), undefined, parseNumberAndBigInt)
+			);
+			if (!parseData.success) {
+				error = "Error with server, tell nin";
+			} else {
+				return parseData.data;
+			}
 		}
 	}
 </script>
@@ -93,19 +140,27 @@
 {#await getAssets()}
 	<p>Fetching assets...</p>
 {:then data}
-	<div class="flex flex-col w-fit">
-		{#each data as assetObj}
-			<div class="flex flex-col border border-black rounded-md p-1">
-				<p class="text-xs text-gray-600">id: {BigInt(assetObj.asset.id)}</p>
-				<p>name: {assetObj.asset.name}</p>
-				{#if assetObj.asset.name == "stelo"}
-					<p>qty: {(assetObj.quantity / 1000).toLocaleString()}</p>
-				{:else}
-					<p>qty: {BigInt(assetObj.quantity)}</p>
-				{/if}
-			</div>
-		{/each}
-	</div>
+	{#if data}
+		<div class="flex flex-col w-fit">
+			{#each data as assetObj}
+				<div class="flex flex-col border border-black rounded-md p-1">
+					<p class="text-xs text-gray-600">id: {assetObj.asset.id}</p>
+					<p>name: {assetObj.asset.name}</p>
+					{#if assetObj.asset.name == "stelo"}
+						<p>
+							qty: {Number(
+								assetObj.quantity.slice(0, -4) + "." + assetObj.quantity.slice(-4)
+							).toLocaleString()}
+						</p>
+					{:else}
+						<p>qty: {BigInt(assetObj.quantity)}</p>
+					{/if}
+				</div>
+			{/each}
+		</div>
+	{:else if error}
+		<p class="text-red-500">{error}</p>
+	{/if}
 {/await}
 
 <h2 class="mt-8 text-xl">Transactions</h2>
@@ -113,31 +168,39 @@
 {#await getTransactions()}
 	<p>Fetching transactions...</p>
 {:then data}
-	<div class="flex flex-col w-fit">
-		{#each data as transaction}
-			<div class="flex flex-col border border-black rounded-md p-1">
-				<p class="text-xs text-gray-600">id: {BigInt(transaction.id)}</p>
-				<p class="text-xs text-gray-600">sender id: {BigInt(transaction.sending_wallet_id)}</p>
-				<p class="text-xs text-gray-600">receiver id: {BigInt(transaction.receiving_wallet_id)}</p>
-				<p>Created at: {transaction.created_at}</p>
-				{#if transaction.memo}
-					<p>Memo: {transaction.memo}</p>
-				{/if}
-				<div>
-					<p>Assets:</p>
-					{#each transaction.assets as assetObj}
-						<div class="flex flex-col border border-black rounded-md p-1">
-							<p class="text-xs text-gray-600">id: {BigInt(assetObj.asset.id)}</p>
-							<p>name: {assetObj.asset.name}</p>
-							{#if assetObj.asset.name == "stelo"}
-								<p>qty: {(assetObj.quantity / 1000).toLocaleString()}</p>
-							{:else}
-								<p>qty: {BigInt(assetObj.quantity)}</p>
-							{/if}
-						</div>
-					{/each}
+	{#if data}
+		<div class="flex flex-col w-fit">
+			{#each data as transaction}
+				<div class="flex flex-col border border-black rounded-md p-1">
+					<p class="text-xs text-gray-600">id: {transaction.id}</p>
+					<p class="text-xs text-gray-600">sender id: {transaction.sending_wallet_id}</p>
+					<p class="text-xs text-gray-600">receiver id: {transaction.receiving_wallet_id}</p>
+					<p>Created at: {transaction.created_at}</p>
+					{#if transaction.memo}
+						<p>Memo: {transaction.memo}</p>
+					{/if}
+					<div>
+						<p>Assets:</p>
+						{#each transaction.assets as assetObj}
+							<div class="flex flex-col border border-black rounded-md p-1">
+								<p class="text-xs text-gray-600">id: {BigInt(assetObj.asset.id)}</p>
+								<p>name: {assetObj.asset.name}</p>
+								{#if assetObj.asset.name == "stelo"}
+									<p>
+										qty: {Number(
+											assetObj.quantity.slice(0, -4) + "." + assetObj.quantity.slice(-4)
+										).toLocaleString()}
+									</p>
+								{:else}
+									<p>qty: {BigInt(assetObj.quantity)}</p>
+								{/if}
+							</div>
+						{/each}
+					</div>
 				</div>
-			</div>
-		{/each}
-	</div>
+			{/each}
+		</div>
+	{:else if error}
+		<p class="text-red-500">{error}</p>
+	{/if}
 {/await}
