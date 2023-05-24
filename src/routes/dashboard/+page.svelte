@@ -11,7 +11,7 @@
 				name: z.string(),
 				value: z.coerce.bigint()
 			}),
-			quantity: z.coerce.string()
+			quantity: z.coerce.number()
 		})
 	);
 
@@ -148,12 +148,10 @@
 					<p>name: {assetObj.asset.name}</p>
 					{#if assetObj.asset.name == "stelo"}
 						<p>
-							qty: {Number(
-								assetObj.quantity.slice(0, -3) + "." + assetObj.quantity.slice(-3)
-							).toLocaleString()}
+							qty: {(assetObj.quantity / 1000).toLocaleString()}
 						</p>
 					{:else}
-						<p>qty: {BigInt(assetObj.quantity)}</p>
+						<p>qty: {assetObj.quantity}</p>
 					{/if}
 				</div>
 			{/each}
@@ -187,12 +185,10 @@
 								<p>name: {assetObj.asset.name}</p>
 								{#if assetObj.asset.name == "stelo"}
 									<p>
-										qty: {Number(
-											assetObj.quantity.slice(0, -3) + "." + assetObj.quantity.slice(-3)
-										).toLocaleString()}
+										qty: {(assetObj.quantity / 1000).toLocaleString()}
 									</p>
 								{:else}
-									<p>qty: {BigInt(assetObj.quantity)}</p>
+									<p>qty: {assetObj.quantity}</p>
 								{/if}
 							</div>
 						{/each}
