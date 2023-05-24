@@ -149,7 +149,7 @@
 					{#if assetObj.asset.name == "stelo"}
 						<p>
 							qty: {Number(
-								assetObj.quantity.slice(0, -4) + "." + assetObj.quantity.slice(-4)
+								assetObj.quantity.slice(0, -3) + "." + assetObj.quantity.slice(-3)
 							).toLocaleString()}
 						</p>
 					{:else}
@@ -188,7 +188,7 @@
 								{#if assetObj.asset.name == "stelo"}
 									<p>
 										qty: {Number(
-											assetObj.quantity.slice(0, -4) + "." + assetObj.quantity.slice(-4)
+											assetObj.quantity.slice(0, -3) + "." + assetObj.quantity.slice(-3)
 										).toLocaleString()}
 									</p>
 								{:else}
