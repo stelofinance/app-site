@@ -18,7 +18,8 @@ export const load = (async ({ fetch }) => {
 	let assetError: string | undefined;
 
 	let assetResponse = await fetch(`${PUBLIC_STL_API}/wallet/assets`, {
-		method: "GET"
+		method: "GET",
+		credentials: "include"
 	});
 
 	if (assetResponse.status >= 400) {
@@ -49,10 +50,12 @@ export const load = (async ({ fetch }) => {
 
 	return {
 		assetError,
-		assets: Assets.safeParse(parse(await assetResponse.text(), undefined, parseNumberAndBigInt)),
+		assets: assetError
+			? undefined
+			: Assets.safeParse(parse(await assetResponse.text(), undefined, parseNumberAndBigInt)),
 		txError,
-		transactions: Transactions.safeParse(
-			parse(await txResponse.text(), undefined, parseNumberAndBigInt)
-		)
+		transactions: txError
+			? undefined
+			: Transactions.safeParse(parse(await txResponse.text(), undefined, parseNumberAndBigInt))
 	};
 }) satisfies PageServerLoad;

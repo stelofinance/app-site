@@ -66,7 +66,7 @@
 {/if}
 
 <h2 class="mt-8 text-xl">Assets</h2>
-{#if data.assets.success}
+{#if data.assets?.success}
 	<div class="flex flex-col w-fit">
 		{#each data.assets.data as assetObj}
 			<div class="flex flex-col border border-black rounded-md p-1">
@@ -88,7 +88,7 @@
 
 <h2 class="mt-8 text-xl">Transactions</h2>
 <p class="text-xs text-gray-700 italic">Only the 10 most recent</p>
-{#if data.transactions.success}
+{#if data.transactions?.success}
 	<div class="flex flex-col w-fit">
 		{#each data.transactions.data as transaction}
 			<div class="flex flex-col border border-black rounded-md p-1">
