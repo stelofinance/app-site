@@ -45,8 +45,6 @@
 
 <h1 class="text-2xl">Dashboard</h1>
 
-<h2>Cookie: {data.stlCookie}</h2>
-
 <h2 class="mt-8 text-xl">Send transaction</h2>
 <div>
 	<input type="text" placeholder="recipient..." bind:value={txUsername} />
@@ -67,7 +65,7 @@
 	<p class="text-red-500">{txError}</p>
 {/if}
 
-<!-- <h2 class="mt-8 text-xl">Assets</h2>
+<h2 class="mt-8 text-xl">Assets</h2>
 {#if data.assets?.success}
 	<div class="flex flex-col w-fit">
 		{#each data.assets.data as assetObj}
@@ -122,4 +120,4 @@
 	</div>
 {:else if data.txError}
 	<p class="text-red-500">{data.txError}</p>
-{/if} -->
+{/if}
