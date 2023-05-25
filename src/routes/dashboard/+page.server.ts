@@ -18,8 +18,7 @@ export const load = (async ({ fetch, cookies }) => {
 	let assetError: string | undefined;
 
 	let assetResponse = await fetch(`${PUBLIC_STL_API}/wallet/assets`, {
-		method: "GET",
-		credentials: "include"
+		method: "GET"
 	});
 
 	if (assetResponse.status >= 400) {
@@ -40,8 +39,7 @@ export const load = (async ({ fetch, cookies }) => {
 	let txError: string | undefined;
 
 	let txResponse = await fetch(`${PUBLIC_STL_API}/wallet/transactions`, {
-		method: "GET",
-		credentials: "include"
+		method: "GET"
 	});
 
 	if (txResponse.status >= 400) {
