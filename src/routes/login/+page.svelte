@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
+	import { PUBLIC_STL_API } from "$env/static/public";
 
 	let error = "";
 	let username = "";
@@ -10,7 +11,7 @@
 	async function login() {
 		error = "";
 		success = false;
-		let response = await fetch(`https://api.stelo.finance/users/${username}/sessions`, {
+		let response = await fetch(`${PUBLIC_STL_API}/users/${username}/sessions`, {
 			method: "POST",
 			credentials: "include",
 			headers: {

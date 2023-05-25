@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { z } from "zod";
 	import { parse, parseNumberAndBigInt } from "lossless-json";
+	import { PUBLIC_STL_API } from "$env/static/public";
 
 	let error = "";
 
@@ -16,7 +17,7 @@
 	);
 
 	async function getAssets() {
-		let response = await fetch(`https://api.stelo.finance/wallet/assets`, {
+		let response = await fetch(`${PUBLIC_STL_API}/wallet/assets`, {
 			method: "GET",
 			credentials: "include"
 		});
@@ -57,7 +58,7 @@
 			body.memo = txMemo;
 		}
 
-		let response = await fetch(`https://api.stelo.finance/wallet/transactions`, {
+		let response = await fetch(`${PUBLIC_STL_API}/wallet/transactions`, {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -87,14 +88,14 @@
 						name: z.string(),
 						value: z.coerce.bigint()
 					}),
-					quantity: z.coerce.string()
+					quantity: z.coerce.number()
 				})
 			)
 		})
 	);
 
 	async function getTransactions() {
-		let response = await fetch(`https://api.stelo.finance/wallet/transactions`, {
+		let response = await fetch(`${PUBLIC_STL_API}/wallet/transactions`, {
 			method: "GET",
 			credentials: "include"
 		});

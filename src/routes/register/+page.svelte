@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { PUBLIC_STL_API } from "$env/static/public";
+
 	let error = "";
 	let username = "";
 	let password = "";
@@ -8,7 +10,7 @@
 	async function register() {
 		error = "";
 		success = false;
-		let response = await fetch("https://api.stelo.finance/users", {
+		let response = await fetch(`${PUBLIC_STL_API}/users`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
