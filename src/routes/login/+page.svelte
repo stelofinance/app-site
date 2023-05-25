@@ -26,7 +26,7 @@
 			error = await response.text();
 		} else {
 			success = true;
-			goto("/dashboard");
+			//goto("/dashboard");
 		}
 	}
 </script>
