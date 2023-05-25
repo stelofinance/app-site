@@ -3,7 +3,7 @@ import type { PageServerLoad } from "./$types";
 import { parse, parseNumberAndBigInt } from "lossless-json";
 import { z } from "zod";
 
-export const load = (async () => {
+export const load = (async ({ fetch, cookies }) => {
 	const Assets = z.array(
 		z.object({
 			asset: z.object({
@@ -18,7 +18,10 @@ export const load = (async () => {
 	let assetError: string | undefined;
 
 	let assetResponse = await fetch(`${PUBLIC_STL_API}/wallet/assets`, {
-		method: "GET"
+		method: "GET",
+		headers: {
+			Authorization: cookies.get("stelo_token") ?? ""
+		}
 	});
 
 	if (assetResponse.status >= 400) {
@@ -39,7 +42,10 @@ export const load = (async () => {
 	let txError: string | undefined;
 
 	let txResponse = await fetch(`${PUBLIC_STL_API}/wallet/transactions`, {
-		method: "GET"
+		method: "GET",
+		headers: {
+			Authorization: cookies.get("stelo_token") ?? ""
+		}
 	});
 
 	if (txResponse.status >= 400) {
