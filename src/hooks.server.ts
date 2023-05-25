@@ -5,9 +5,11 @@ export const handle = (async ({ event, resolve }) => {
 		if (!event.cookies.get("stelo_token")) {
 			throw redirect(307, "/");
 		}
-	} else if (event.cookies.get("stelo_token")) {
-		throw redirect(307, "/dashboard");
 	}
+
+	// else if (event.cookies.get("stelo_token")) {
+	// 	throw redirect(307, "/dashboard");
+	// }
 
 	return await resolve(event);
 }) satisfies Handle;
