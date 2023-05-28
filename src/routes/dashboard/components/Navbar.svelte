@@ -7,13 +7,13 @@
 	class="flex text-xl py-1 justify-evenly underline bg-gray-200 text-neutral-600"
 >
 	<a
-		href="/"
+		href="/dashboard"
 		class="hover:text-black focus:text-black"
-		class:text-black={$page.url.pathname === "/"}>dashboard</a
+		class:text-black={$page.url.pathname === "/dashboard"}>dashboard</a
 	>
 	<a
-		href="/wallets"
+		href="/dashboard/wallets"
 		class="hover:text-black focus:text-black"
-		class:text-black={$page.url.pathname === "/wallets"}>wallets</a
+		class:text-black={$page.url.pathname === "/dashboard/wallets"}>wallets</a
 	>
 </nav>

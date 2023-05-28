@@ -36,8 +36,9 @@
 <input type="text" placeholder="username..." bind:value={username} />
 <input type="password" placeholder="password..." bind:value={password} />
 
-<button class="bg-gray-300 rounded-sm py-1 px-4 underline" on:click={register}>Submit</button>
+<button class="bg-gray-300 rounded-sm py-1 px-4 underline" on:click={register}>Register</button>
 
+<br />
 <a href="/login" class="underline">Go to Login</a>
 
 {#if success}

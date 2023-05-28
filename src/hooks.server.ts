@@ -3,12 +3,12 @@ import { redirect, type Handle, type HandleFetch } from "@sveltejs/kit";
 
 export const handle = (async ({ event, resolve }) => {
 	// Auth redirects
-	if (event.url.pathname.startsWith("/login") || event.url.pathname.startsWith("/register")) {
-		if (event.cookies.get("stelo_token")) {
+	if (event.url.pathname.startsWith("/dashboard")) {
+		if (!event.cookies.get("stelo_token")) {
 			throw redirect(307, "/");
 		}
-	} else if (!event.cookies.get("stelo_token")) {
-		throw redirect(307, "/login");
+	} else if (event.cookies.get("stelo_token")) {
+		throw redirect(307, "/dashboard");
 	}
 
 	return await resolve(event);

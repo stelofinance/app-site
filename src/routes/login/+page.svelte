@@ -38,6 +38,8 @@
 
 <button class="bg-gray-300 rounded-sm py-1 px-4 underline" on:click={login}>Login</button>
 
+<br />
+
 <a href="/register" class="underline">Go to Register</a>
 
 {#if success}
