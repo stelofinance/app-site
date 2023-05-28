@@ -31,8 +31,12 @@ export const load = (async ({ fetch, cookies }) => {
 	const Transactions = z.array(
 		z.object({
 			id: z.coerce.bigint(),
-			sending_wallet_id: z.coerce.bigint(),
-			receiving_wallet_id: z.coerce.bigint(),
+			// sending_wallet_id: z.coerce.bigint(),
+			// receiving_wallet_id: z.coerce.bigint(),
+			sending_wallet_address: z.string(),
+			receiving_wallet_address: z.string(),
+			sending_username: z.optional(z.string()),
+			receiving_username: z.optional(z.string()),
 			created_at: z.string(),
 			memo: z.string(),
 			assets: Assets

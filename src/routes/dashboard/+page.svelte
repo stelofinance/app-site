@@ -93,8 +93,16 @@
 		{#each data.transactions.data as transaction}
 			<div class="flex flex-col border border-black rounded-md p-1">
 				<p class="text-xs text-gray-600">id: {transaction.id}</p>
-				<p class="text-xs text-gray-600">sender id: {transaction.sending_wallet_id}</p>
-				<p class="text-xs text-gray-600">receiver id: {transaction.receiving_wallet_id}</p>
+				{#if transaction.sending_username}
+					<p>Sender: {transaction.sending_username}</p>
+				{/if}
+				{#if transaction.receiving_username}
+					<p>Recipient: {transaction.receiving_username}</p>
+				{/if}
+				<p class="text-xs text-gray-600">Sender address: {transaction.sending_wallet_address}</p>
+				<p class="text-xs text-gray-600">
+					Recipient address: {transaction.receiving_wallet_address}
+				</p>
 				<p>Created at: {transaction.created_at}</p>
 				{#if transaction.memo}
 					<p>Memo: {transaction.memo}</p>
