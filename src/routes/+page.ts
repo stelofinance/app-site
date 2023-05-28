@@ -1,9 +1,10 @@
+import { browser } from "$app/environment";
 import { PUBLIC_STL_API } from "$env/static/public";
-import type { PageServerLoad } from "./$types";
+import type { PageLoad } from "./$types";
 import { parse, parseNumberAndBigInt } from "lossless-json";
 import { z } from "zod";
 
-export const load = (async ({ fetch, cookies }) => {
+export const load = (async ({ fetch }) => {
 	const Assets = z.array(
 		z.object({
 			asset: z.object({
@@ -18,10 +19,7 @@ export const load = (async ({ fetch, cookies }) => {
 	let assetError: string | undefined;
 
 	let assetResponse = await fetch(`${PUBLIC_STL_API}/wallet/assets`, {
-		method: "GET",
-		headers: {
-			Authorization: cookies.get("stelo_token") ?? ""
-		}
+		credentials: browser ? "include" : undefined
 	});
 
 	if (assetResponse.status >= 400) {
@@ -46,10 +44,7 @@ export const load = (async ({ fetch, cookies }) => {
 	let txError: string | undefined;
 
 	let txResponse = await fetch(`${PUBLIC_STL_API}/wallet/transactions`, {
-		method: "GET",
-		headers: {
-			Authorization: cookies.get("stelo_token") ?? ""
-		}
+		credentials: browser ? "include" : undefined
 	});
 
 	if (txResponse.status >= 400) {
@@ -66,4 +61,4 @@ export const load = (async ({ fetch, cookies }) => {
 			? undefined
 			: Transactions.safeParse(parse(await txResponse.text(), undefined, parseNumberAndBigInt))
 	};
-}) satisfies PageServerLoad;
+}) satisfies PageLoad;
