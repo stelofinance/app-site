@@ -7,41 +7,24 @@
 	let username: string;
 	let password: string;
 
-	async function register() {
+	async function login() {
 		error = "";
-		let response = await fetch(`${PUBLIC_STL_API}/users`, {
+		let response = await fetch(`${PUBLIC_STL_API}/users/${username}/sessions`, {
 			method: "POST",
+			credentials: "include",
 			headers: {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
-				username: username,
 				password: password
 			})
 		});
 
 		if (response.status >= 400) {
-			error = await response.text();
+			error = "Invalid username or password";
 		} else {
-			let response = await fetch(`${PUBLIC_STL_API}/users/${username}/sessions`, {
-				method: "POST",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					password: password
-				})
-			});
-
-			if (response.status >= 400) {
-				goto("/login");
-			} else {
-				goto("/dash/assets");
-			}
+			goto("/dash/assets");
 		}
-
-		password = "";
 	}
 </script>
 
@@ -67,13 +50,13 @@
 	{/if}
 
 	<button
-		on:click={register}
+		on:click={login}
 		class="mt-8 text-xl font-bold bg-white text-black py-1.5 rounded-md px-8 w-52 text-center"
-		>REGISTER</button
+		>LOGIN</button
 	>
 
 	<div class="flex gap-2 mt-6">
-		<p class="text-neutral-400">Already registered?</p>
-		<a href="/login" class="underline">Login</a>
+		<p class="text-neutral-400">Need an account?</p>
+		<a href="/register" class="underline">Register</a>
 	</div>
 </div>

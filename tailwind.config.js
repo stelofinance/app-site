@@ -3,6 +3,9 @@ export default {
 	content: ["./src/**/*.{html,js,svelte,ts}"],
 	theme: {
 		extend: {
+			fontFamily: {
+				"source-code-pro": ["Source Code Pro", "monospace"]
+			},
 			colors: {
 				anakiwa: {
 					50: "#f0fbff",
