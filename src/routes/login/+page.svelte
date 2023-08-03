@@ -28,6 +28,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Login | Stelo Finance</title>
+</svelte:head>
+
 <div class="h-screen max-h-screen flex flex-col justify-center items-center">
 	<SteloFullMono className="text-white h-20 w-auto" />
 

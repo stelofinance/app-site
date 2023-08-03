@@ -4,6 +4,10 @@
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<title>Assets | Stelo Finance</title>
+</svelte:head>
+
 <div class="flex flex-col px-3 pt-3">
 	<h1 class="font-medium text-3xl ml-2">Assets</h1>
 
