@@ -14,16 +14,15 @@ export const load = (async ({ fetch }) => {
 		throw error(response.status);
 	}
 
-	let transaction = Transactions.safeParse(
+	let transactions = Transactions.safeParse(
 		parse(await response.text(), undefined, parseNumberAndBigInt)
 	);
 
-	if (!transaction.success) {
-		console.log(transaction.error);
+	if (!transactions.success) {
 		throw error(500, "Unable to parse server response");
 	}
 
 	return {
-		transactions: transaction.data
+		transactions: transactions.data
 	};
 }) satisfies PageLoad;

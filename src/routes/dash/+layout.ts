@@ -5,7 +5,7 @@ import type { LayoutLoad } from "./$types";
 import { parse, parseNumberAndBigInt } from "lossless-json";
 import { SessionInfo } from "$lib/dataStructures";
 
-export const load = (async ({ fetch }) => {
+export const load = (async ({ fetch, depends }) => {
 	let response = await fetch(`${PUBLIC_STL_API}/user/session`, {
 		credentials: browser ? "include" : undefined
 	});
@@ -21,6 +21,8 @@ export const load = (async ({ fetch }) => {
 	if (!sessionInfo.success) {
 		throw error(500, "Unable to parse server response");
 	}
+
+	depends("/dash+layout");
 
 	return {
 		sessionInfo: sessionInfo.data

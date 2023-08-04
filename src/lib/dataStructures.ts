@@ -42,3 +42,15 @@ export const Transaction = z.object({
 });
 
 export const Transactions = z.array(Transaction);
+
+export const Wallet = z.object({
+	id: z.coerce.bigint(),
+	address: z.string(),
+	user_id: z.coerce.bigint(),
+	webhook: z
+		.string()
+		.optional()
+		.transform((s) => (s === "" ? null : s))
+});
+
+export const Wallets = z.array(Wallet);
