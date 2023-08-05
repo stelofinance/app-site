@@ -9,7 +9,8 @@
 
 <nav
 	role="main"
-	class="fixed z-10 bottom-5 flex w-11/12 max-w-sm justify-between h-14 items-center px-4 left-1/2 -translate-x-1/2 bg-neutral-800 rounded-xl"
+	class="fixed z-10 bottom-5 flex w-11/12 max-w-sm justify-between h-14 items-center px-4 left-1/2
+		-translate-x-1/2 bg-neutral-900 rounded-xl"
 >
 	<a href="/dash/assets" aria-label="Assets">
 		<ThreeHexagons
