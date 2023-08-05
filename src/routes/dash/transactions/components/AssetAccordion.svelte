@@ -69,7 +69,7 @@
 	{#if isOpen}
 		<div
 			class="flex flex-col pb-6 pt-1"
-			transition:slide={{
+			transition:slide|global={{
 				duration: 300
 			}}
 		>
