@@ -10,7 +10,7 @@
 
 	export let data: PageData;
 
-	let showAssigned = false;
+	let showAssigned = data.sessionInfo.wallet_user_id !== data.sessionInfo.user_id;
 
 	let isCreateOpen = false;
 	let createInput = "";

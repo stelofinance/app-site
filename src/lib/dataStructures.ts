@@ -5,6 +5,7 @@ export const SessionInfo = z.object({
 	username: z.string(),
 	primary_wallet_id: z.coerce.bigint(),
 	wallet_id: z.coerce.bigint(),
+	wallet_user_id: z.coerce.bigint(),
 	wallet_address: z.string()
 });
 
