@@ -22,7 +22,7 @@ export const load = (async ({ fetch, depends }) => {
 		throw error(500, "Unable to parse server response");
 	}
 
-	depends("/dash+layout");
+	depends("/dash:layout");
 
 	return {
 		sessionInfo: sessionInfo.data

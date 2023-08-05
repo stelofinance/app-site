@@ -5,6 +5,7 @@
 	import type { PageData } from "./$types";
 	import { error } from "@sveltejs/kit";
 	import { invalidate } from "$app/navigation";
+	import { slide } from "svelte/transition";
 
 	export let data: PageData;
 
@@ -24,7 +25,7 @@
 			throw error(response.status, "Error setting wallet as active");
 		}
 
-		invalidate("/dash+layout");
+		invalidate("/dash:layout");
 	}
 
 	async function setPrimaryWallet(id: bigint) {
@@ -43,7 +44,37 @@
 			throw error(response.status, "Error setting primary wallet");
 		}
 
-		invalidate("/dash+layout");
+		invalidate("/dash:layout");
+	}
+
+	let isCreateOpen = false;
+	let createInput = "";
+
+	async function createSubmit() {
+		if (!isCreateOpen) {
+			isCreateOpen = true;
+			return;
+		}
+
+		let response = await fetch(PUBLIC_STL_API + "/user/wallets", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: stringify({
+				address: createInput
+			})
+		});
+
+		if (response.status >= 400) {
+			throw error(response.status, "Error creating new wallet");
+		}
+
+		invalidate("/dash/wallets:page");
+
+		isCreateOpen = false;
+		createInput = "";
 	}
 </script>
 
@@ -56,8 +87,9 @@
 </div>
 
 <div class="flex flex-col gap-4 mt-4 px-3">
-	{#each data.wallets as wallet}
+	{#each data.wallets as wallet (wallet.id)}
 		<div
+			in:slide
 			class="flex relative overflow-hidden flex-col py-1 px-2 bg-black bg-opacity-50 rounded-lg
 			{wallet.id === data.sessionInfo.wallet_id ? 'border-anakiwa border' : ''}"
 		>
@@ -90,4 +122,47 @@
 			{/if}
 		</div>
 	{/each}
+</div>
+
+<div class="flex px-3 mt-5 w-full justify-center relative">
+	{#if isCreateOpen}
+		<input
+			in:slide={{
+				axis: "x"
+			}}
+			out:slide={{
+				delay: 400,
+				axis: "x"
+			}}
+			type="text"
+			bind:value={createInput}
+			placeholder="Wallet address..."
+			class="bg-black bg-opacity-50 w-full px-2 rounded-lg"
+		/>
+		<div
+			class="w-4"
+			in:slide={{
+				axis: "x"
+			}}
+			out:slide={{
+				delay: 600,
+				duration: 200,
+				axis: "x"
+			}}
+		/>
+		<button
+			in:slide={{
+				delay: 400
+			}}
+			out:slide
+			on:click={() => (isCreateOpen = false)}
+			class="text-neutral-400 underline text-sm absolute -bottom-6 left-4">cancel</button
+		>
+	{/if}
+
+	<button
+		class="text-sm font-bold rounded-lg py-2 px-4 bg-black bg-opacity-50 transition-colors duration-300
+		{isCreateOpen ? 'bg-melrose-800' : ''}"
+		on:click={createSubmit}>CREATE</button
+	>
 </div>
