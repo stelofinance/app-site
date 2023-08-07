@@ -55,3 +55,18 @@ export const Wallet = z.object({
 });
 
 export const Wallets = z.array(Wallet);
+
+export const WalletAssignedUsers = z.array(
+	z.object({
+		id: z.coerce.bigint(),
+		username: z.string()
+	})
+);
+
+export const WalletSessions = z.array(
+	z.object({
+		id: z.coerce.bigint(),
+		wallet_id: z.coerce.bigint(),
+		name: z.string()
+	})
+);

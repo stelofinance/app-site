@@ -77,11 +77,12 @@
 	</div>
 
 	{#if wallet.id === sessionWalletId}
-		<button
+		<a
+			href="/dash/wallet"
 			class="absolute right-0 justify-center top-0 h-full bg-anakiwa px-3 flex flex-col items-center"
 		>
 			<Wrench className="text-black mt-0.5" />
 			<p class="text-sm text-black font-bold">EDIT</p>
-		</button>
+		</a>
 	{/if}
 </div>
