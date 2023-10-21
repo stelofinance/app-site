@@ -30,7 +30,7 @@
 
 	<a href="/dash/transact" aria-label="Transact">
 		<TransactIcon
-			className={$page.url.pathname === "/dash/transact" ? "border border-white" : ""}
+			className={$page.url.pathname === "/dash/transact" ? "grayscale-0" : "grayscale"}
 		/>
 	</a>
 
