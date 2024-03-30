@@ -32,7 +32,7 @@
 
 		for (const asset of stagedAssets) {
 			if (asset.quantity !== undefined) {
-				assetObject[asset.name] = asset.quantity;
+				assetObject[asset.name] = asset.name == "stelo" ? asset.quantity * 1000 : asset.quantity;
 			}
 		}
 
