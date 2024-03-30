@@ -2,7 +2,7 @@
 	import "../app.css";
 </script>
 
-<main class="relative z-10 text-white pb-24">
+<main class="relative z-10 text-white pb-24 max-w-2xl mx-auto lg:pb-32">
 	<slot />
 </main>
 
