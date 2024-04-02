@@ -15,4 +15,7 @@
 	{#each data.transactions as tx}
 		<AssetAccordion {tx} sessionWalletId={data.sessionInfo.wallet_id} />
 	{/each}
+	{#if data.transactions.length == 0}
+		<p class="mx-auto mt-16 text-lg">No transactions yet</p>
+	{/if}
 </div>

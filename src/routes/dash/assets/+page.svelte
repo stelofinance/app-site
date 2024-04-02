@@ -28,5 +28,8 @@
 				</p>
 			</div>
 		{/each}
+		{#if data.assets.data.length == 0}
+			<p class="mx-auto mt-16 text-lg">No assets yet</p>
+		{/if}
 	{/if}
 </div>
