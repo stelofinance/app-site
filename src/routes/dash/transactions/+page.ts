@@ -19,7 +19,7 @@ export const load = (async ({ fetch }) => {
 	);
 
 	if (!transactions.success) {
-		throw error(500, "Unable to parse server response");
+		throw error(500, "Unable to parse server response: " + transactions.error.message);
 	}
 
 	return {
